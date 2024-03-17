@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 def calc(x):
     return str(math.log(abs(12 * math.sin(int(x)))))
 
@@ -18,7 +19,6 @@ try:
     link = "http://suninjuly.github.io/explicit_wait2.html"
     browser = webdriver.Chrome()
     browser.get(link)
-
 
     # Ваш код, который заполняет обязательные поля
 
