@@ -1,54 +1,35 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
 import time
-import math
-import os
-import pyperclip
-
-
-def calc(x):
-    return str(math.log(abs(12 * math.sin(int(x)))))
-
 
 try:
-    link = "https://suninjuly.github.io/redirect_accept.html"
+    link = "http://suninjuly.github.io/registration2.html"
     browser = webdriver.Chrome()
     browser.get(link)
 
     # Ваш код, который заполняет обязательные поля
-    button = browser.find_element(By.CSS_SELECTOR, "button.btn")
-    button.click()
-
-    new_window = browser.window_handles[1]
-    browser.switch_to.window((new_window))
-
-    val = browser.find_element(By.ID, 'input_value').text
-
-    answer = browser.find_element(By.NAME, 'text')
-    answer.send_keys(calc(val))
-
-    button = browser.find_element(By.CSS_SELECTOR, "button.btn")
+    fname_element = browser.find_element(By.CSS_SELECTOR, 'div.first_block&gt;div&gt;.first')
+    fname_element.send_keys('FooBar')
+    lname_element = browser.find_element(By.CSS_SELECTOR, 'div.first_block&gt;div&gt;.second')
+    lname_element.send_keys('FooBar')
+    email_element = browser.find_element(By.CSS_SELECTOR, 'div.first_block&gt;div&gt;.third')
+    email_element.send_keys('FooBar')
 
     # Отправляем заполненную форму
+    button = browser.find_element(By.CSS_SELECTOR, "button.btn")
     button.click()
-
-    alert = browser.switch_to.alert
-    alert_text = alert.text
-
-    pyperclip.copy(alert_text.split()[-1])
-    print(alert_text[-18:])
-
-    '''
-    dir_path = os.path.dirname(__file__)
-    file_path = os.path.join(dir_path, 'file.txt')
-    send_file = browser.find_element(By.ID, 'file')
-    send_file.send_keys(file_path)
-    '''
 
     # Проверяем, что смогли зарегистрироваться
     # ждем загрузки страницы
     time.sleep(1)
+
+    # находим элемент, содержащий текст
+    welcome_text_elt = browser.find_element(By.TAG_NAME, "h1")
+    # записываем в переменную welcome_text текст из элемента welcome_text_elt
+    welcome_text = welcome_text_elt.text
+
+    # с помощью assert проверяем, что ожидаемый текст совпадает с текстом на странице сайта
+    assert "Congratulations! You have successfully registered!" == welcome_text
 
 finally:
     # ожидание чтобы визуально оценить результаты прохождения скрипта
